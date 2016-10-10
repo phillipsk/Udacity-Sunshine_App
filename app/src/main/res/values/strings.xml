@@ -5,5 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="today_weather">Today - Sunny - 88/63</string>
+    <!-- Translating Strings is a monetary cost -->
+    <string name="action_refresh" translatable="false">Refresh</string>
 
 </resources>
