@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -169,7 +168,7 @@ public class ForecastFragment extends Fragment {
          * into an Object hierarchy for us.
          */
 
-        private String[] getWeatherDataFromJSON(String forecastJsonStr, int numDays){
+        private String[] getWeatherDataFromJSON(String forecastJsonStr, int numDays)
             throws JSONException{
 
                 // These are the names of the JSON objects that need to be extracted.
@@ -180,32 +179,13 @@ public class ForecastFragment extends Fragment {
                 final String OWM_MIN = "min";
                 final String OWM_DESCRIPTION = "main";
 
-                JSONObject forecastJson = new JSONObject(forecastJsonStr);
-                JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
-
-                // OWM returns daily forecasts based upon the local time of the city that is being
-                // asked for, which means that we need to know the GMT offset to translate this data
-                // properly.
-
-                // Since this data is also sent in-order and the first day is always the
-                // current day, we're going to take advantage of that to get a nice
-                // normalized UTC date for all of our weather.
-
-                Time dayTime = new Time();
-                dayTime.setToNow();
-
-                // we start at the day returned by local time. Otherwise this is a mess.
-                int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
-
-                // now we work exclusively in UTC
-                dayTime = new Time();
-
+//                JSONObject forecastJson = new JSONObject(forecastJsonStr);
             }
-        }
+
 
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected String[] doInBackground(String... params) {
 
             if (params.length == 0){
                 return null;
