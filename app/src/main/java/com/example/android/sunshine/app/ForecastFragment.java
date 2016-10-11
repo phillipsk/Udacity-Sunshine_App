@@ -5,6 +5,7 @@ package com.example.android.sunshine.app;
  */
 
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -59,7 +60,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute();
+            weatherTask.execute("02050");
             return true;
         }
 
@@ -127,13 +128,17 @@ public class ForecastFragment extends Fragment {
     }
 
 
-    public class FetchWeatherTask extends AsyncTask<Void,Void,Void>{
+    public class FetchWeatherTask extends AsyncTask<String,Void,Void>{
 
         //            Prints the name of this class in the logs, for easier debugging
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
+
+            if (params.length == 0){
+                return null;
+            }
 
 //            ****************************************************************************
 //            API code from https://gist.github.com/anonymous/1c04bf2423579e9d2dcd
@@ -147,6 +152,11 @@ public class ForecastFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
 
+//            URI Builder strings
+            String format = "json";
+            String units = "metric";
+            int numDays = 7;
+
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are available at OWM's forecast API page, at
@@ -155,7 +165,30 @@ public class ForecastFragment extends Fragment {
 //                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
 //                Even though the API docs specify JSON as the default response syntax, explicitly
 //                defining it anyways isolates any errors
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=02050&mode=json&units=metric&cnt=7&appid=b70d61271792d0fbb5c045701c8bf245");
+
+
+//                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=02050&mode=json&units=metric&cnt=7&appid=b70d61271792d0fbb5c045701c8bf245");
+
+                final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                final String QUERY_PARAM = "q";
+                final String FORMAT_PARAM = "mode";
+                final String UNITS_PARAM = "units";
+                final String DAYS_PARAM = "cnt";
+                final String APPID_PARAM = "APPID";
+
+                Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                        .appendQueryParameter(QUERY_PARAM, params[0])
+                        .appendQueryParameter(FORMAT_PARAM, format)
+                        .appendQueryParameter(UNITS_PARAM, units)
+                        .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                        .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                        .build();
+
+                URL url = new URL(builtUri.toString());
+
+                Log.v(LOG_TAG,"Built URI " + builtUri.toString());
+
+
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
