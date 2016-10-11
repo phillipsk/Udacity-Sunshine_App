@@ -184,6 +184,10 @@ public class ForecastFragment extends Fragment {
                     forecastJsonStr = null;
                 }
                 forecastJsonStr = buffer.toString();
+
+//                logging for network permissions
+                Log.v(LOG_TAG,"Forecast JSON String: " + forecastJsonStr);
+
             } catch (IOException e) {
                 Log.e("ForecastFragment", "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
