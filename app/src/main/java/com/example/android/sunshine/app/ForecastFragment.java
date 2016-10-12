@@ -79,7 +79,6 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             /* StackOverflow Version
             http://stackoverflow.com/questions/1005073/initialization-of-an-arraylist-in-one-line */
@@ -93,7 +92,7 @@ public class ForecastFragment extends Fragment {
         Weahter_list.add("Sat - Sunny - 65/56");
 
             /* Udacity version */
-        String[] AltWeather_list = {
+        String[] data = {
                 "Mon 6/23 - Sunny - 31/17",
                 "Tue 6/24 - Foggy - 21/8",
                 "Wed 6/25 - Cloudy - 22/17",
@@ -103,7 +102,7 @@ public class ForecastFragment extends Fragment {
                 "Sun 6/29 - Sunny - 20/7"
         };
 
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(AltWeather_list));
+        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
             /* Udacity Version of constructing the adapter */
         mForecastAdapter =
@@ -123,12 +122,11 @@ public class ForecastFragment extends Fragment {
 /*            ListView listView = (R.layout.list_item_forecast) findViewById(R.layout.list_item_forecast);
             listView.setAdapter(adapter);*/
 
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 //            FrameLayout listview_forecast = this.find
             /* Udacity version of 1) finding the list view and 2) calling the view with the adapter method*/
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(adapter);
-
-
+        listView.setAdapter(mForecastAdapter);
         return rootView;
     }
 
@@ -358,11 +356,12 @@ public class ForecastFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] result) {
-            if (result != null){
+            if (result != null) {
                 mForecastAdapter.clear();
-                for (String dayForecastStr : result){
+                for (String dayForecastStr : result) {
                     mForecastAdapter.add(dayForecastStr);
                 }
+                // New data is back from the server.  Hooray!
             }
         }
     }
