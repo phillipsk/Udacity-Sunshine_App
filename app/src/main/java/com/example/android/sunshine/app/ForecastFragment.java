@@ -1,9 +1,5 @@
 package com.example.android.sunshine.app;
 
-/**
- * Created by tech_ministry on 10/9/16.
- */
-
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,8 +41,9 @@ public class ForecastFragment extends Fragment {
     /* Udacity initializes the adapter outside */
 //    ArrayAdapter<String> mForecastAdapter;
 //    changed to private after refactoring ForecastFragment class from MainActivity.java
-    ArrayAdapter<String> mForecastAdapter;
+    public ArrayAdapter<String> mForecastAdapter;
 //    private ArrayAdapter<String> mForecastAdapter;
+//    changed back to public so other methods can reference the adapter
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -357,6 +354,16 @@ public class ForecastFragment extends Fragment {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            if (result != null){
+                mForecastAdapter.clear();
+                for (String dayForecastStr : result){
+                    mForecastAdapter.add(dayForecastStr);
+                }
+            }
         }
     }
 }
