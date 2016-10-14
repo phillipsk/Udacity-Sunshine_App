@@ -8,5 +8,6 @@
     <!-- Translating Strings is a monetary cost -->
     <string name="action_refresh" translatable="false">Refresh</string>
     <string name="title_activity_detail">Details</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

@@ -57,6 +57,7 @@ public class DetailActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, com.example.android.sunshine.app.SettingsActivity.class));
             return true;
         }
 
