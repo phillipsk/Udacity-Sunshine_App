@@ -7,6 +7,6 @@
     <string name="today_weather">Today - Sunny - 88/63</string>
     <!-- Translating Strings is a monetary cost -->
     <string name="action_refresh" translatable="false">Refresh</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail">Details</string>
 
 </resources>
