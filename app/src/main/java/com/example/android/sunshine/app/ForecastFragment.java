@@ -294,6 +294,8 @@ public class ForecastFragment extends Fragment {
 
                 final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
                 final String QUERY_PARAM = "q";
+                /*wrong by me*/
+//                final String QUERY_PARAM = getResources().getString(R.string.pref_location_key);
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
                 final String DAYS_PARAM = "cnt";
