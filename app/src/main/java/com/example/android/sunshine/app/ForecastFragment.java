@@ -32,8 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 //import java.sql.Time;
 
@@ -85,27 +83,8 @@ public class ForecastFragment extends Fragment {
 
             /* StackOverflow Version
             http://stackoverflow.com/questions/1005073/initialization-of-an-arraylist-in-one-line */
-        ArrayList<String> Weahter_list = new ArrayList<>();
 
-        Weahter_list.add("Today - Sunny - 88/63");
-        Weahter_list.add("Tomorrow - Foggy - 70/46");
-        Weahter_list.add("Weds - Rain - 65/56");
-        Weahter_list.add("Thurs - Cloudy - 65/56");
-        Weahter_list.add("Fri - Cloudy - 65/56");
-        Weahter_list.add("Sat - Sunny - 65/56");
-
-            /* Udacity version */
-        String[] data = {
-                "Mon 6/23 - Sunny - 31/17",
-                "Tue 6/24 - Foggy - 21/8",
-                "Wed 6/25 - Cloudy - 22/17",
-                "Thurs 6/26 - Rainy - 18/11",
-                "Fri 6/27 - Foggy - 21/10",
-                "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
-                "Sun 6/29 - Sunny - 20/7"
-        };
-
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
+//        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
             /* Udacity Version of constructing the adapter */
         mForecastAdapter =
@@ -113,12 +92,12 @@ public class ForecastFragment extends Fragment {
                         getActivity(), // The current context (this activity)
                         R.layout.list_item_forecast, // The name of the layout ID.
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                        weekForecast); // The array called
+                        new ArrayList<String>()); // The array called
 
 
 //            My attempt at initializing and constructing an adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,
-                R.id.list_item_forecast_textview,weekForecast);
+/*        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,
+                R.id.list_item_forecast_textview,weekForecast);*/
 
 //            Call the adapter according to the documentation not yet learned on Udacity
 
