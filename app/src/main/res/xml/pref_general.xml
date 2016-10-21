@@ -10,5 +10,21 @@
         android:inputType="text"
         android:singleLine="true"/>
 
+    <ListPreference
+        android:title="@string/pref_units_label"
+        android:key="@string/pref_units_key"
+        android:defaultValue="@string/pref_units_metric"
+        android:entryValues="@array/pref_units_values"
+        android:entries="@array/pref_units_options"/>
+
+    <!-- My attempt, Udacity solution above -->
+    <!--
+    <EditTextPreference
+        android:title="@string/pref_temperature_label"
+        android:key="@string/pref_temperature_key"
+        android:defaultValue="@string/pref_temperature_default"
+        android:inputType="text"
+        android:singleLine="true"/>
+-->
 
 </PreferenceScreen>
