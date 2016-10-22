@@ -43,7 +43,10 @@
     <!-- Value in SharedPreferences for imperial temperature unit option [CHAR LIMIT=NONE] -->
     <string name="pref_units_imperial" translatable="false">imperial</string>
 
-<!-- for Map intent-->
+    <!-- Map intent -->
     <string name="action_map">Map Location</string>
+
+    <!-- Sharing menu item -->
+    <string name="action_share">Share</string>
 
 </resources>
