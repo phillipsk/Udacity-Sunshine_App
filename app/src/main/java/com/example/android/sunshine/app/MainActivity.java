@@ -24,7 +24,46 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new ForecastFragment())
                     .commit();
         }
+        Log.i(LOG_TAG,"App state = onCreate");
+
     }
+
+    @Override
+    protected void onPause() {
+        Log.i(LOG_TAG,"App state = onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i(LOG_TAG,"App state = onStopp");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i(LOG_TAG,"App state = onDestroy");
+        super.onDestroy();
+    }
+
+/*    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.i(LOG_TAG,"App state = onSaveInstanceState");
+        super.onSaveInstanceState();
+    }*/
+
+    @Override
+    protected void onResume() {
+        Log.i(LOG_TAG,"App state = onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart(){
+        Log.i(LOG_TAG,"App state = onStart");
+        super.onStart();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
