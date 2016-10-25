@@ -49,4 +49,9 @@
     <!-- Sharing menu item -->
     <string name="action_share">Share</string>
 
+    <!-- Content Authority for manifest provider tag -->
+    <string name="content_authority">com.example.android.sunshine.app</string>
+
+    <!-- -->
+
 </resources>
