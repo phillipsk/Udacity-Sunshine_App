@@ -1,42 +1,45 @@
 package com.example.android.sunshine.app;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.example.android.sunshine.app.data.WeatherContract;
 
 //import java.sql.Time;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int FORECAST_LOADER = 0;
 
     /* Udacity initializes the adapter outside */
 //    ArrayAdapter<String> mForecastAdapter;
 //    changed to private after refactoring ForecastFragment class from MainActivity.java
-    public ArrayAdapter<String> mForecastAdapter;
+//    public ArrayAdapter<String> mForecastAdapter; // refactored in Lesson 5 to ForecastAdapter
 //    private ArrayAdapter<String> mForecastAdapter;
 //    changed back to public so other methods can reference the adapter
+    private ForecastAdapter mForecastAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -65,19 +68,39 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        refactored after Lesson 5 refactor without even using it (note this is moved down below)
+/*        String locationSetting = Utility.getPreferredLocation(getActivity());
 
-            /* StackOverflow Version
-            http://stackoverflow.com/questions/1005073/initialization-of-an-arraylist-in-one-line */
+            *//* StackOverflow Version
+            http://stackoverflow.com/questions/1005073/initialization-of-an-arraylist-in-one-line *//*
 
 //        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
-            /* Udacity Version of constructing the adapter */
-        mForecastAdapter =
+            *//* Udacity Version of constructing the adapter *//*
+//        refactored in Lesson to 5 towards ForecastAdapter
+*//*        mForecastAdapter =
                 new ArrayAdapter<String>(
                         getActivity(), // The current context (this activity)
                         R.layout.list_item_forecast, // The name of the layout ID.
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                        new ArrayList<String>()); // The array called
+                        new ArrayList<String>()); // The array called*//*
+
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
+        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                locationSetting,System.currentTimeMillis()
+        );
+
+        Cursor cur = getActivity().getContentResolver().query(weatherForLocationUri,
+                null,
+                null,
+                null,
+                sortOrder);*/
+
+        // The CursorAdapter will take data from our cursor and populate the ListView
+        // However, we cannot use FLAG_AUTO_REQUERY since it is deprecated, so we will end
+        // up with an empty list the first time we run.
+//        mForecastAdapter = new ForecastAdapter(getActivity(),cur,0);
+        mForecastAdapter = new ForecastAdapter(getActivity(),null,0);
 
 
 //            My attempt at initializing and constructing an adapter
@@ -95,7 +118,8 @@ public class ForecastFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        //        refactored in Lesson to 5 towards ForecastAdapter
+/*        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,7 +132,7 @@ public class ForecastFragment extends Fragment {
                         .putExtra(Intent.EXTRA_TEXT,forecast);
                 startActivity(intentForecastFragment);
             }
-        });
+        });*/
 
         return rootView;
     }
@@ -377,10 +401,13 @@ public class ForecastFragment extends Fragment {
 
     private void updateWeather(){
 //        FetchWeatherTask weatherTask = new FetchWeatherTask(); // old way using the inner class above
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity(), mForecastAdapter);
+        //        refactored in Lesson to 5 towards ForecastAdapter
+/*        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity(), mForecastAdapter);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = prefs.getString(getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default));
+                getString(R.string.pref_location_default));*/
+        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
+        String location = Utility.getPreferredLocation(getActivity());
         weatherTask.execute(location);
     }
 
@@ -388,6 +415,43 @@ public class ForecastFragment extends Fragment {
     public void onStart() {
         super.onStart();
         updateWeather();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        Order by Date by ASC (Ascending by date)
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
+
+        String locationSetting = Utility.getPreferredLocation(getActivity());
+
+        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                locationSetting,System.currentTimeMillis()
+        );
+
+        return new CursorLoader(getActivity(),
+                weatherForLocationUri,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mForecastAdapter.swapCursor(cursor);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mForecastAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(FORECAST_LOADER,null,this);
+        super.onActivityCreated(savedInstanceState);
     }
 }
 
