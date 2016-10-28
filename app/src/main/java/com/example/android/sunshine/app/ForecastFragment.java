@@ -1,6 +1,7 @@
 package com.example.android.sunshine.app;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
@@ -102,6 +104,35 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mForecastAdapter = new ForecastAdapter(getActivity(),null,0);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+// Get a reference to the ListView, and attach this adapter to it.
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView.setAdapter(mForecastAdapter);
+
+//        We'll call our MainActivity
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                // if it cannot seek to that position.
+                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                if (cursor != null){
+                    String locationSetting = Utility.getPreferredLocation(getActivity());
+                    Intent intent = new Intent(getActivity(),DetailActivity.class)
+                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
+                            ));
+                    startActivity(intent);
+                }
+
+            }
+        });
+        return rootView;
+
+
 //        refactored after Lesson 5 refactor without even using it (note this is moved down below)
 /*        String locationSetting = Utility.getPreferredLocation(getActivity());
 
@@ -134,7 +165,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // However, we cannot use FLAG_AUTO_REQUERY since it is deprecated, so we will end
         // up with an empty list the first time we run.
 //        mForecastAdapter = new ForecastAdapter(getActivity(),cur,0);
-        mForecastAdapter = new ForecastAdapter(getActivity(),null,0);
 
 
 //            My attempt at initializing and constructing an adapter
@@ -146,11 +176,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 /*            ListView listView = (R.layout.list_item_forecast) findViewById(R.layout.list_item_forecast);
             listView.setAdapter(adapter);*/
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 //            FrameLayout listview_forecast = this.find
             /* Udacity version of 1) finding the list view and 2) calling the view with the adapter method*/
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
 
         //        refactored in Lesson to 5 towards ForecastAdapter
 /*        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -168,7 +195,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             }
         });*/
 
-        return rootView;
     }
 
 //
