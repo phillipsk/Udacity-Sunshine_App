@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
             if (null != ff){
                 ff.onLocationChanged();;
             }
+            mLocation = location;
         }
     }
 
