@@ -471,11 +471,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         weatherTask.execute(location);
     }
 
-    @Override
+//    replaced with onLocationChanged to reflect a user changing location in settings
+/*    @Override
     public void onStart() {
         super.onStart();
         updateWeather();
-    }
+    }*/
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -512,6 +513,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(FORECAST_LOADER,null,this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    void onLocationChanged(){
+        updateWeather();
+        getLoaderManager().restartLoader(FORECAST_LOADER,null,this);
     }
 }
 
