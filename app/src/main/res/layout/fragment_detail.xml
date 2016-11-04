@@ -1,17 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.sunshine.app.DetailActivity$DetailFragment">
+    android:layout_height="match_parent">
 
-    <TextView android:text="@string/hello_world"
-        android:id="@+id/detail_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</RelativeLayout>
+        <!-- Header: Day, Date -->
+        <TextView
+            android:id="@+id/detail_day_view"
+            android:layout_width="wrap_content"
+            android:text="Today"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/detail_date_view"
+            android:layout_width="wrap_content"
+            android:text="June 24"
+            android:layout_height="wrap_content" />
+
+
+        <!-- Main content: high, low, art, weather state -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fragment_detail_high_temp"
+                    android:layout_width="wrap_content"
+                    android:text="81"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/fragment_detail_low_temp"
+                    android:layout_width="wrap_content"
+                    android:text="24"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <!-- ImageView-->
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                
+                <ImageView
+                    android:id="@+id/detail_icon"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/detail_forecast_textview"
+                    android:text="Clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <!-- Humidity, wind, pressure -->
+        <TextView
+                android:id="@+id/fragment_detail_humidity"
+                android:layout_width="wrap_content"
+                android:text="Humidity: 81 %"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/fragment_detail_wind"
+                android:layout_width="wrap_content"
+                android:text="Wind Speed: 2 km/h NW"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/fragment_detail_pressure"
+                android:layout_width="wrap_content"
+                android:text="Pressure: 1017 hPa"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</ScrollView>
