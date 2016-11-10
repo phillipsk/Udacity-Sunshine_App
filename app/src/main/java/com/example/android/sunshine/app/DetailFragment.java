@@ -66,6 +66,7 @@ public class DetailFragment extends Fragment implements LoaderManager.
     private static final int COL_WEATHER_DEGREES = 8;
     private static final int COL_WEATHER_CONDITION_ID = 9;
 
+
     private ImageView mIconView;
     private TextView mFriendlyDateView;
     private TextView mDateView;
