@@ -38,13 +38,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/fragment_detail_high_temp"
+                    android:id="@+id/detail_high_textview"
                     android:layout_width="wrap_content"
                     android:text="81"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/fragment_detail_low_temp"
+                    android:id="@+id/detail_low_textview"
                     android:layout_width="wrap_content"
                     android:text="24"
                     android:layout_height="wrap_content"/>
@@ -78,19 +78,19 @@
 
         <!-- Humidity, wind, pressure -->
         <TextView
-                android:id="@+id/fragment_detail_humidity"
+                android:id="@+id/detail_humidity_textview"
                 android:layout_width="wrap_content"
                 android:text="Humidity: 81 %"
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/fragment_detail_wind"
+                android:id="@+id/detail_wind_textview"
                 android:layout_width="wrap_content"
                 android:text="Wind Speed: 2 km/h NW"
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/fragment_detail_pressure"
+                android:id="@+id/detail_pressure_textview"
                 android:layout_width="wrap_content"
                 android:text="Pressure: 1017 hPa"
                 android:layout_height="wrap_content"/>
